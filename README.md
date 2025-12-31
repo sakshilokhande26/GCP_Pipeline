@@ -1,5 +1,5 @@
 # 🚀 GCP Student Data Pipeline
-An automated data pipeline built on Google Cloud Platform (GCP) that cleans dirty Excel/CSV files and loads them to BigQuery with duplicate detection and email notifications.
+An automated data pipeline built on Google Cloud Platform (GCP) that cleans dirty Excel/CSV files and loads them to BigQuery with duplicate detection.
 
 ## 🎯 Overview
 This pipeline automatically:
@@ -9,7 +9,7 @@ This pipeline automatically:
 - Archives original files
 - Tracks processing history to prevent duplicates
 
-
+---
 ## ✨ Features
 
 | Feature | Description |
@@ -20,10 +20,12 @@ This pipeline automatically:
 | **Data Archiving** | Original files archived with timestamp |
 | **State Management** | Full audit trail in BigQuery |
 | **Free Trial Compatible** | Works within GCP $300 free credits |
-  
+
+---
 ## 🏗️ Architecture
 <img width="785" height="605" alt="image" src="https://github.com/user-attachments/assets/2f5b112b-1e5e-4cb2-9512-624ba7ffb840" />
 
+---
 ## 🧩 Components
 
 ### GCP Services Used
@@ -54,5 +56,3 @@ The pipeline executes 11 steps:
 8. **Load to BigQuery** - Insert rows into students table
 9. **Archive & Cleanup** - Move original to archive, delete staging
 10. **Update Log** - Record success/skip in `file_load_log`
-
-
