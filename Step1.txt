@@ -1,0 +1,16 @@
+1. APIs required for this pipeline to work
+
+	Cloud Storage API
+	Cloud Functions API
+	Cloud Build API
+	BigQuery API
+	Cloud Pub/Sub API
+	Eventarc API
+	Cloud Run Admin API
+	
+2. Cloud Storage Buckets
+
+	raw-incoming/incoming
+	staging
+	archive
+	
