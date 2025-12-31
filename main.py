@@ -11,8 +11,6 @@ import uuid
 from datetime import datetime
 
 # ============================================================
-# CONFIGURATION - UPDATE THESE WITH YOUR PROJECT DETAILS
-# ============================================================
 
 PROJECT_ID = "student-data-pipeline"  # Your project ID
 RAW_BUCKET = "student-pipeline-raw-incoming"  # Your raw bucket name
@@ -23,7 +21,7 @@ STUDENTS_TABLE = "students"  # Your students table
 FILE_LOG_TABLE = "file_load_log"  # Your file log table
 
 # ============================================================
-# DATA CLEANING FUNCTIONS (Same as Azure Function)
+# DATA CLEANING FUNCTIONS
 # ============================================================
 
 def clean_text(text):
@@ -301,7 +299,7 @@ def process_file(file_name, bucket_name):
     
     try:
         # =========================================
-        # STEP 1: GET METADATA (like ADF activity)
+        # STEP 1: GET METADATA 
         # =========================================
         print("STEP 1: Getting file metadata...")
         metadata = get_file_metadata(bucket_name, file_name)
@@ -309,7 +307,7 @@ def process_file(file_name, bucket_name):
         print(f"  → Size: {metadata['size']} bytes")
         
         # =========================================
-        # STEP 2: LOOKUP FILE LOG (like ADF activity)
+        # STEP 2: LOOKUP FILE LOG 
         # =========================================
         print("\nSTEP 2: Checking FileLoadLog...")
         log_entry = check_file_in_log(metadata['full_path'])
@@ -321,7 +319,7 @@ def process_file(file_name, bucket_name):
             print(f"  → Not found in log (first time)")
         
         # =========================================
-        # STEP 3: IF CONDITION (like ADF activity)
+        # STEP 3: IF CONDITION 
         # =========================================
         print("\nSTEP 3: Evaluating If Condition...")
         should_process, reason = should_process_file(metadata, log_entry)
@@ -365,7 +363,7 @@ def process_file(file_name, bucket_name):
         print("="*60)
         
         # =========================================
-        # STEP 4: CLEAN DATA (like Azure Function)
+        # STEP 4: CLEAN DATA 
         # =========================================
         print("\nSTEP 4: Cleaning data...")
         df = read_file_from_gcs(bucket_name, file_name)
@@ -390,21 +388,21 @@ def process_file(file_name, bucket_name):
         print(f"  → Staging file: {staging_uri}")
         
         # =========================================
-        # STEP 6: LOAD TO BIGQUERY (like ADF Copy)
+        # STEP 6: LOAD TO BIGQUERY 
         # =========================================
         print("\nSTEP 6: Loading to BigQuery...")
         rows_loaded = load_to_bigquery(staging_uri, file_name)
         print(f"  → Rows loaded: {rows_loaded}")
         
         # =========================================
-        # STEP 7: ARCHIVE (like ADF Copy to Archive)
+        # STEP 7: ARCHIVE 
         # =========================================
         print("\nSTEP 7: Archiving original file...")
         archive_path = copy_to_archive(bucket_name, file_name, ARCHIVE_BUCKET)
         print(f"  → Archived to: {archive_path}")
         
         # =========================================
-        # STEP 8: DELETE FROM RAW (like ADF Delete)
+        # STEP 8: DELETE FROM RAW 
         # =========================================
         print("\nSTEP 8: Deleting from raw bucket...")
         delete_file(bucket_name, file_name)
@@ -538,4 +536,5 @@ def http_trigger(request):
         return json.dumps({
             "status": "FAILED",
             "message": str(e)
+
         }), 500
